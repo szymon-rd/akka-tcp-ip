@@ -16,7 +16,7 @@ import pl.jaca.tcp.stack.EthernetReceiver
 object Main {
 
   implicit val system: ActorSystem = ActorSystem("tcp_ip")
-  implicit val materializer: ActorMaterializer = ActorMaterializer()
+
 
   def main(args: Array[String]): Unit = {
     Pcaps.findAllDevs().toArray().foreach(println)
@@ -25,12 +25,7 @@ object Main {
 
     val mac = macToBytes("d8:cb:8a:33:f6:2d")
 
-    Source.fromGraph(receiver)
-      .collect {
-        case Some(p) => p
-      }
-      .map(p => bytesToMac(p.smac) + " " + bytesToMac(p.dmac))
-      .runForeach(println)//7A:79:19:3F:72:B0
+
 
   }
 

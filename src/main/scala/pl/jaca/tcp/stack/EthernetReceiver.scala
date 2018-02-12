@@ -43,8 +43,8 @@ class EthernetReceiver(deviceHandle: PcapHandle) extends GraphStage[SourceShape[
     byteBuffer.get(dmac)
     byteBuffer.get(smac)
     val etherType = byteBuffer.getShort
-    val payload = Array.ofDim[Byte](packet.size - byteBuffer.position())
-    byteBuffer.get(payload)
+    val payload = ByteBuffer.allocate(packet.length - byteBuffer.position())
+    payload.put(byteBuffer)
     byteBuffer.clear()
     EthernetPacket(dmac, smac, etherType, payload)
   }
